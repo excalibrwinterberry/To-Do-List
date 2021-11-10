@@ -1,3 +1,7 @@
+import initialLoad from "./initialLoad"
+import displayTodos from "./displayTodos"
+import './style.css'
+
 //Object of individual todos
 const ToDos = ()=>{
     let title="No title"
@@ -23,12 +27,22 @@ const ToDos = ()=>{
 }
 
 //Collection of Todos
-
 const collectionTodos = () =>{
     let arrTodos = []
     const addToDos = newTodo => arrTodos.push(newTodo)
 
-    return{arrTodos, addToDos}
+    const deleteTodos = (id) => {
+
+        let newArrTodos = arrTodos.filter((todo) =>{
+            return todo.getId() !== id
+        })
+
+        arrTodos = newArrTodos
+    } 
+
+    const getLength = () =>  arrTodos.length
+
+    return{arrTodos, addToDos, deleteTodos, getLength}
 }
 
 const todoList = collectionTodos()
@@ -48,4 +62,24 @@ todo2.setId(2)
 todoList.addToDos(todo1)
 todoList.addToDos(todo2)
 
-console.log(todoList.arrTodos[0].getDueDate())
+
+// console.log(todoList.getLength())
+
+
+const displayLoader = (()=>{
+
+    const main = document.querySelector('#main')
+    const pageLoad = ()=>{
+        main.appendChild(initialLoad())
+    }
+
+
+    return {pageLoad}
+
+})()
+
+displayLoader.pageLoad()
+
+document.querySelector('#display').appendChild(displayTodos(todoList.arrTodos))
+
+

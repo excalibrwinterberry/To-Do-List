@@ -1,0 +1,39 @@
+.title{
+    height: 50px;
+    margin: 0px;
+    padding: 0px;
+    background-color: bisque;
+    text-align: center;
+}
+
+#workArea{
+    background-color: rgb(147, 172, 172);
+    height: 750px;
+    
+}
+
+body{
+    margin: 0px;
+    height: 800px;
+}
+p{
+    margin: 0px;
+    padding: 5px;
+    font-size: x-large;
+}
+
+#newTask{
+    text-align: center;
+    height: 100px;
+    background-color: rgb(218, 174, 110);
+
+}
+
+#addTask{
+    margin-top: 30px;
+}
+
+#display{
+    background-color: aquamarine;
+    height: 650px;
+}
