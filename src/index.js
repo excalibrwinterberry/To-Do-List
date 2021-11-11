@@ -62,25 +62,24 @@ todo2.setId(2)
 todoList.addToDos(todo1)
 todoList.addToDos(todo2)
 
-
-
-// console.log(todoList.getLength())
-
-
 const displayLoader = (()=>{
 
     const main = document.querySelector('#main')
     const pageLoad = ()=>{
-        main.appendChild(initialLoad())
+        document.querySelector('#main').appendChild(initialLoad())
     }
 
+    const todoDisplay = ()=>{
+        document.querySelector('#display').appendChild(displayTodos(todoList.arrTodos))
+    } 
 
-    return {pageLoad}
+
+    return {pageLoad, todoDisplay}
 
 })()
 
 displayLoader.pageLoad()
+displayLoader.todoDisplay()
 
-document.querySelector('#display').appendChild(displayTodos(todoList.arrTodos))
 
 
