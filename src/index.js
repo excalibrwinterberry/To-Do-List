@@ -48,19 +48,20 @@ const collectionTodos = () =>{
 const todoList = collectionTodos()
 
 const todo1 = ToDos()
-todo1.setTitle('title1')
-todo1.setDescription('desc1')
+todo1.setTitle('The odin project')
+todo1.setDescription('Complete section 1 of the odin projext')
 todo1.setPriority(1)
 todo1.setId(1)
 
 const todo2 = ToDos()
-todo2.setTitle('title2')
-todo2.setDescription('desc2')
+todo2.setTitle('Competitve Coding')
+todo2.setDescription('Go to leetcode and solve 2 questions')
 todo2.setPriority(2)
 todo2.setId(2)
 
 todoList.addToDos(todo1)
 todoList.addToDos(todo2)
+
 
 
 // console.log(todoList.getLength())

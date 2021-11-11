@@ -1,10 +1,12 @@
+import todoCard from "./todoCard"
+
 export default function displayTodos (arrTodos) {
-    const todoList = document.createElement('ul')
+    const todoList = document.createElement('div')
+    todoList.setAttribute('id','todoList')
+
     arrTodos.forEach(todo => {
-        const listItem = document.createElement('li')
-        listItem.textContent = todo.getTitle()
-        todoList.appendChild(listItem)
-    })
+        todoList.appendChild(todoCard(todo))
+    });
 
     return todoList
 }
