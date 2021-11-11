@@ -1,12 +1,3 @@
-const handleAddNewTask = (e) =>{
-    const title = document.querySelector('#addTitle').value
-    const desc = document.querySelector('#addDesc').value
-    const dueDate = document.querySelector('#addDueDate').value
-    const priority = document.querySelector('#addPriority').value
-
-    console.log(title, desc, dueDate, priority)
-}
-
 export default function initialLoad () {
     const content = document.createElement('div')
     content.setAttribute('id', 'content')
@@ -61,7 +52,7 @@ export default function initialLoad () {
     const btnAddTask = document.createElement('button')
     btnAddTask.setAttribute('id', 'addTask')
     btnAddTask.textContent = "Add new Task"
-    btnAddTask.addEventListener('click', handleAddNewTask)
+    // btnAddTask.addEventListener('click', handleAddNewTask)
 
     const display = document.createElement('div')
     display.setAttribute('id', 'display')
