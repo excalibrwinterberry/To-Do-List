@@ -69,7 +69,7 @@ p{
 
 }
 
-.removeTodo{
+.removeTodo, .doneTask{
   align-items: center;
   background-clip: padding-box;
   background-color: #fa6400;
@@ -98,17 +98,27 @@ p{
   width: auto;
 }
 
-.removeTodo:hover, .removeTodo:focus {
+.removeTodo:hover, .removeTodo:focus, .doneTask:hover, .doneTask:focus {
   background-color: #fb8332;
   box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
 }
 
-.removeTodo:hover {
+.removeTodo:hover, .doneTask:hover {
   transform: translateY(-1px);
 }
 
-.removeTodo:active {
+.removeTodo:active, .doneTask:active {
   background-color: #c85000;
   box-shadow: rgba(0, 0, 0, .06) 0 2px 4px;
   transform: translateY(0);
+}
+
+.done{
+  background: #eeeeee;
+background: -moz-radial-gradient(center, ellipse cover,  #eeeeee 0%, #cccccc 100%);
+background: -webkit-radial-gradient(center, ellipse cover,  #eeeeee 0%,#cccccc 100%);
+background: radial-gradient(ellipse at center,  #eeeeee 0%,#cccccc 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eeeeee', endColorstr='#cccccc',GradientType=1 );
+text-decoration: line-through;
+
 }

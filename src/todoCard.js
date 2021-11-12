@@ -24,10 +24,15 @@ export default function todoCard(todo) {
     const priority = document.createElement('p')
     priority.textContent = todo.getPriority()
 
-    const deleteTodoBtn = document.createElement('btn')
+    const deleteTodoBtn = document.createElement('button')
     deleteTodoBtn.classList.add('removeTodo')
-    deleteTodoBtn.dataset.id = todo.getPriority()
+    deleteTodoBtn.dataset.id = todo.getId()
     deleteTodoBtn.textContent = 'Remove'
+
+    const completeTodoBtn = document.createElement('button')
+    completeTodoBtn.classList.add('doneTask')
+    completeTodoBtn.dataset.id = todo.getId()
+    completeTodoBtn.textContent = "Task done"
 
 
     container.appendChild(desc)
@@ -35,6 +40,7 @@ export default function todoCard(todo) {
     container.appendChild(priority)
     card.appendChild(container)
     card.appendChild(deleteTodoBtn)
+    card.appendChild(completeTodoBtn)
 
 
     return card
