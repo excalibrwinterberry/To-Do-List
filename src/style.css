@@ -119,6 +119,10 @@ background: -moz-radial-gradient(center, ellipse cover,  #eeeeee 0%, #cccccc 100
 background: -webkit-radial-gradient(center, ellipse cover,  #eeeeee 0%,#cccccc 100%);
 background: radial-gradient(ellipse at center,  #eeeeee 0%,#cccccc 100%);
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eeeeee', endColorstr='#cccccc',GradientType=1 );
-text-decoration: line-through;
 
+
+}
+
+.doneTask{
+  margin-left: 60px;
 }
