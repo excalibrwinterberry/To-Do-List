@@ -2,6 +2,7 @@ import initialLoad from "./initialLoad"
 import displayTodos from "./displayTodos"
 import todoCard from "./todoCard"
 import './style.css'
+import sidebarElement from "./Sidebar/sidebarElement"
 
 //Object of individual todos
 const ToDos = ()=>{
@@ -31,9 +32,13 @@ const ToDos = ()=>{
 }
 
 //Collection of Todos
-const collectionTodos = () =>{
+const collectionTodos = (name) =>{
     let arrTodos = []
     const addToDos = newTodo => arrTodos.push(newTodo)
+
+    const getName =() => name
+
+    const setName = (newName) => name = newName
 
     const deleteTodos = (id) => {
 
@@ -55,33 +60,25 @@ const collectionTodos = () =>{
 
     const getLength = () =>  arrTodos.length
 
-    return{arrTodos, addToDos, deleteTodos, getLength, changeStatus}
+    return{arrTodos, addToDos, deleteTodos, getLength, changeStatus, getName}
 }
 
-const todoList = collectionTodos()
+const todoList = collectionTodos('Today')
+const toodList1 = collectionTodos('Tomorrow')
+const todoList2 = collectionTodos('Tasks')
 
-const todo1 = ToDos()
-todo1.setTitle('The odin project')
-todo1.setDescription('Complete section 1 of the odin projext')
-todo1.setPriority(1)
-todo1.setId(1)
-todo1.setDueDate((new Date()).toJSON().slice(0, 10))
 
-const todo2 = ToDos()
-todo2.setTitle('Competitve Coding')
-todo2.setDescription('Go to leetcode and solve 2 questions')
-todo2.setPriority(2)
-todo2.setId(2)
-todo2.setDueDate((new Date()).toJSON().slice(0, 10))
-
-todoList.addToDos(todo1)
-todoList.addToDos(todo2)
+const projectsList = []
+projectsList.push(todoList)
+projectsList.push(toodList1)
+projectsList.push(todoList2)
 
 const handleAddNewTask = (e) =>{
     const title = document.querySelector('#addTitle').value
     const desc = document.querySelector('#addDesc').value
     const dueDate = document.querySelector('#addDueDate').value
     const priority = document.querySelector('#addPriority').value
+    
 
     const newTodo = ToDos()
     newTodo.setTitle(title)
@@ -100,6 +97,7 @@ const handleAddNewTask = (e) =>{
     document.querySelector('#addPriority').value = 1    
 
     todoAddElement.querySelector('.removeTodo').addEventListener('click', handleDeleteTask)
+    document.querySelector("#divModal").style.display = 'none'
 }
 
 const handleDeleteTask = (e) =>{
@@ -118,6 +116,7 @@ const displayLoader = (()=>{
 
     const main = document.querySelector('#main')
     const pageLoad = ()=>{
+        document.querySelector('#main').appendChild(sidebarElement(projectsList))
         document.querySelector('#main').appendChild(initialLoad())
     }
 
