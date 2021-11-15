@@ -3,12 +3,13 @@ import displayTodos from "./displayTodos"
 import todoCard from "./todoCard"
 import './style.css'
 import sidebarElement from "./Sidebar/sidebarElement"
+import addProjectElement from "./Sidebar/addProjectElement"
 
 //Object of individual todos
 const ToDos = ()=>{
     let title="No title"
     let description=""
-    let dueDate= new Date()
+    let dueDate= (new Date()).toJSON().slice(0, 10)
     let priority=0
     let id = 0
     let status = false
@@ -32,21 +33,22 @@ const ToDos = ()=>{
 }
 
 //Collection of Todos
-const collectionTodos = (name) =>{
+const collectionTodos = (name, listId) =>{
     let arrTodos = []
     const addToDos = newTodo => arrTodos.push(newTodo)
 
     const getName =() => name
 
-    const setName = (newName) => name = newName
+    const getListId = ()  => listId
 
     const deleteTodos = (id) => {
 
-        let newArrTodos = arrTodos.filter((todo) =>{
-            return todo.getId() !== id
-        })
+        for(let i=0; i<arrTodos.length; i++){
+            if(arrTodos[i].getId() === id){
+                arrTodos.splice(i,1)
+            }
+        }
 
-        arrTodos = newArrTodos
     } 
 
     const changeStatus = (id) =>{
@@ -60,18 +62,49 @@ const collectionTodos = (name) =>{
 
     const getLength = () =>  arrTodos.length
 
-    return{arrTodos, addToDos, deleteTodos, getLength, changeStatus, getName}
+    return{arrTodos, addToDos, deleteTodos, getLength, changeStatus, getName, getListId}
 }
 
-const todoList = collectionTodos('Today')
-const toodList1 = collectionTodos('Tomorrow')
-const todoList2 = collectionTodos('Tasks')
+const todoList = collectionTodos('Today', 1)
+const todoList1 = collectionTodos('Tomorrow', 2)
+
+const doHw = ToDos()
+doHw.setTitle('do Homework')
+doHw.setDescription('college homework')
+doHw.setPriority(0)
+doHw.setId(1)
+
+const excercise = ToDos()
+excercise.setTitle('excercise')
+excercise.setDescription('do excercise in evening')
+excercise.setPriority(2)
+excercise.setId(2)
+
+const cp = ToDos()
+cp.setTitle('Competitve Programming')
+cp.setDescription('open leetcode and codechef')
+cp.setId(1)
+
+todoList.addToDos(doHw)
+todoList.addToDos(excercise)
+
+todoList1.addToDos(cp)
+
+const allProjectsList = []
+
+allProjectsList.push(todoList)
+allProjectsList.push(todoList1)
 
 
-const projectsList = []
-projectsList.push(todoList)
-projectsList.push(toodList1)
-projectsList.push(todoList2)
+function clearElementContent(elementID) {
+    const div = document.getElementById(elementID);
+      
+    while(div.firstChild) {
+        div.removeChild(div.firstChild);
+    }
+}
+
+let selectedProjectId = allProjectsList[0].getListId()
 
 const handleAddNewTask = (e) =>{
     const title = document.querySelector('#addTitle').value
@@ -85,9 +118,15 @@ const handleAddNewTask = (e) =>{
     newTodo.setDescription(desc)
     newTodo.setDueDate(dueDate)
     newTodo.setPriority(priority)
-    newTodo.setId(todoList.getLength()+1)
+    
+    
+    allProjectsList.forEach(project=>{
+        if(project.getListId() === selectedProjectId){
+            newTodo.setId(project.getLength()+1)
+            project.addToDos(newTodo)
+        }
+    })
 
-    todoList.addToDos(newTodo)
     const todoAddElement =todoCard(newTodo)
     document.getElementById('todoList').appendChild(todoAddElement)
 
@@ -101,9 +140,15 @@ const handleAddNewTask = (e) =>{
 }
 
 const handleDeleteTask = (e) =>{
-    const id = parseInt(e.target.dataset.id)
-    todoList.deleteTodos(id)
-    document.getElementById(`${id}`).remove()
+    const taskId = parseInt(e.target.dataset.id)
+
+    allProjectsList.forEach(project =>{
+        if(project.getListId() === selectedProjectId){
+            project.deleteTodos(taskId)
+
+        }
+    })
+    document.getElementById(`${taskId}`).remove()
 }
 
 const hadnleStatusChange = (e) =>{
@@ -112,12 +157,47 @@ const hadnleStatusChange = (e) =>{
     document.getElementById(`${id}`).classList.toggle('done')
 }
 
+const handleProjectBtn = (e)=>{
+    selectedProjectId =  parseInt(e.target.id.slice(7))
+    clearElementContent('display')
+    const projectToShow = allProjectsList.find(project => project.getListId() === selectedProjectId)
+    document.getElementById('display').appendChild(displayTodos(projectToShow.arrTodos))
+
+    displayLoader.addRemoveEventListeners()
+}
+
+const handleOpenAddProject = (e)=>{
+    //add 'addProjectELement' to #divProject
+    document.getElementById('divProject').appendChild(addProjectElement())
+
+    //the closeaddproject is not present in the dom as we add it after clicking the button
+    document.getElementById('closeAddProject').addEventListener('click', (e)=>{
+        document.getElementById('addProjectDiv').remove()
+    })
+
+    document.getElementById('addProject').addEventListener('click', (e)=>{
+        const name = document.getElementById('projectNameInput').value === "" ? "Project" : document.getElementById('projectNameInput').value
+        const newTodoList = collectionTodos(name, allProjectsList.length+1)
+        allProjectsList.push(newTodoList)
+
+        document.getElementById('addProjectDiv').remove()
+
+        const newProjectBtn = document.createElement('button')
+        newProjectBtn.textContent = newTodoList.getName()
+        newProjectBtn.classList.add('project')
+        newProjectBtn.setAttribute('id', `project${allProjectsList.length}`)
+        document.getElementById('userProjectsList').appendChild(newProjectBtn)
+        newProjectBtn.addEventListener('click',handleProjectBtn)
+    })
+
+}
+
+
 const displayLoader = (()=>{
 
-    const main = document.querySelector('#main')
     const pageLoad = ()=>{
-        document.querySelector('#main').appendChild(sidebarElement(projectsList))
         document.querySelector('#main').appendChild(initialLoad())
+        document.querySelector('#main').appendChild(sidebarElement(allProjectsList))
     }
 
     const todoDisplay = ()=>{
@@ -151,6 +231,16 @@ const doneTaskBtns = [...document.querySelectorAll('.doneTask')]
 doneTaskBtns.forEach((doneTaskBtn) =>{
     doneTaskBtn.addEventListener('click', hadnleStatusChange)
 })
+
+
+document.getElementById('openAddProject').addEventListener('click', handleOpenAddProject)
+
+const projectBtns = [...document.getElementsByClassName('project')]
+projectBtns.forEach(projectBtn =>{
+    projectBtn.addEventListener('click', handleProjectBtn)
+})
+
+
 
 
 
