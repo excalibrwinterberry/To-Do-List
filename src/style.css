@@ -1,48 +1,3 @@
-/* .title{
-    height: 50px;
-    margin: 0px;
-    padding: 0px;
-    background-color: bisque;
-    text-align: center;
-}
-
-
-
-#workArea{
-    background-color: rgb(147, 172, 172);
-    height: 750px;
-    margin-left: 150px;
-
-    
-}
-
-body{
-    margin: 0px;
-    height: 800px;
-    font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-}
-p{
-    margin: 0px;
-    padding: 5px;
-    font-size: x-large;
-}
-
-#newTask{
-    text-align: center;
-    height: 100px;
-    background-color: rgb(218, 174, 110);
-
-}
-
-#addTask{
-    margin-top: 30px;
-}
-
-#display{
-    background-color: aquamarine;
-    height: 650px; 
-}*/
-
 *{
   margin: 0px;
   padding: 0px;
@@ -69,8 +24,6 @@ font-weight:normal;
 }
 
 
-
-
 #sidebar{
   text-align: center;
   position: fixed;
@@ -78,7 +31,6 @@ font-weight:normal;
   height: 100%;
   color: #f3e9e9;
 font-family: 'Varela Round', sans-serif;
-/* background: #0D2631; */
 background: #2E2E3E;
 background: -webkit-linear-gradient(right, #2E2E3E, #1B2027);
 background: -moz-linear-gradient(right, #2E2E3E, #1B2027);
@@ -339,10 +291,6 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffaf4b', end
   transform: translateY(0);
 }
 
-
-
-
-
 .card {
     margin: 20px;
     padding: 20px;
@@ -443,5 +391,9 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eeeeee', end
   position: absolute;
   bottom: 10px;
   right: 10px;
+}
+
+#newTask , #todoList , body{
+  background: #ecd5d5;
 }
 
