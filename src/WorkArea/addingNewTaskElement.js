@@ -1,4 +1,5 @@
 export default function addingNewTaskElement(){
+
     const newTask = document.createElement('div')
     newTask.setAttribute('id', 'newTask')
     
@@ -64,25 +65,20 @@ export default function addingNewTaskElement(){
         }
       }
 
-    // newTask.appendChild(labelTitle)
-    // newTask.appendChild(titleTodoInput)
-    // newTask.appendChild(labelDesc)
-    // newTask.appendChild(descTodoInput)
-    // newTask.appendChild(labelDueDate)
-    // newTask.appendChild(dueDateTodoInput)
-    // newTask.appendChild(labelPriority)
-    // newTask.appendChild(priorityTodoInput)
-    // newTask.appendChild(btnAddTask)
 
     divModal.appendChild(closeModal)
     divModal.appendChild(labelTitle)
     divModal.appendChild(titleTodoInput)
+    divModal.appendChild(document.createElement('br'))
     divModal.appendChild(labelDesc)
     divModal.appendChild(descTodoInput)
+    divModal.appendChild(document.createElement('br'))
     divModal.appendChild(labelDueDate)
     divModal.appendChild(dueDateTodoInput)
+    divModal.appendChild(document.createElement('br'))
     divModal.appendChild(labelPriority)
     divModal.appendChild(priorityTodoInput)
+    divModal.appendChild(document.createElement('br'))
     divModal.appendChild(btnAddTask)
 
     newTask.appendChild(openModalBtn)

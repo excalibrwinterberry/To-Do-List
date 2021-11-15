@@ -2,8 +2,8 @@ import initialLoad from "./initialLoad"
 import displayTodos from "./displayTodos"
 import todoCard from "./todoCard"
 import './style.css'
-import sidebarElement from "./Sidebar/sidebarElement"
 import addProjectElement from "./Sidebar/addProjectElement"
+import header from "./Header/headerElement"
 
 //Object of individual todos
 const ToDos = ()=>{
@@ -128,14 +128,15 @@ const handleAddNewTask = (e) =>{
     })
 
     const todoAddElement =todoCard(newTodo)
+    
+    todoAddElement.querySelector('.removeTodo').addEventListener('click', handleDeleteTask)
+    todoAddElement.querySelector('.doneTask').addEventListener('click', hadnleStatusChange)
     document.getElementById('todoList').appendChild(todoAddElement)
 
     document.querySelector('#addTitle').value = ''
     document.querySelector('#addDesc').value = ''
     document.querySelector('#addDueDate').value = (new Date()).toJSON().slice(0, 10)
     document.querySelector('#addPriority').value = 1    
-
-    todoAddElement.querySelector('.removeTodo').addEventListener('click', handleDeleteTask)
     document.querySelector("#divModal").style.display = 'none'
 }
 
@@ -152,9 +153,16 @@ const handleDeleteTask = (e) =>{
 }
 
 const hadnleStatusChange = (e) =>{
-    const id = parseInt(e.target.dataset.id)
-    todoList.changeStatus(id)
-    document.getElementById(`${id}`).classList.toggle('done')
+
+    const taskId = parseInt(e.target.dataset.id)
+    allProjectsList.forEach(project =>{
+        if(project.getListId() === selectedProjectId){
+            project.changeStatus(taskId)
+        }
+    })
+
+    document.getElementById(`${taskId}`).classList.toggle('done')
+
 }
 
 const handleProjectBtn = (e)=>{
@@ -166,28 +174,58 @@ const handleProjectBtn = (e)=>{
     displayLoader.addRemoveEventListeners()
 }
 
+
+const handleProjectRemoveBtn = (e) =>{
+    const projectId = parseInt(e.target.id.slice(13))
+
+    document.getElementById(`projectListItem${projectId}`).remove()
+
+    for(let i=0; i<allProjectsList.length; i++){
+        if(allProjectsList[i].getListId() === projectId){
+            allProjectsList.splice(i,1)
+        }
+    }
+
+}
+
 const handleOpenAddProject = (e)=>{
     //add 'addProjectELement' to #divProject
     document.getElementById('divProject').appendChild(addProjectElement())
+    e.target.disabled = true
 
     //the closeaddproject is not present in the dom as we add it after clicking the button
-    document.getElementById('closeAddProject').addEventListener('click', (e)=>{
+    document.getElementById('closeAddProject').addEventListener('click', (event)=>{
         document.getElementById('addProjectDiv').remove()
+        e.target.disabled = false
     })
 
-    document.getElementById('addProject').addEventListener('click', (e)=>{
+    document.getElementById('addProject').addEventListener('click', (event)=>{
+        e.target.disabled = false
         const name = document.getElementById('projectNameInput').value === "" ? "Project" : document.getElementById('projectNameInput').value
         const newTodoList = collectionTodos(name, allProjectsList.length+1)
         allProjectsList.push(newTodoList)
 
         document.getElementById('addProjectDiv').remove()
 
+        const projectListItem = document.createElement('div')
+        projectListItem.classList.add('projectListItem')
+        projectListItem.setAttribute('id', `projectListItem${allProjectsList.length}`)
+
         const newProjectBtn = document.createElement('button')
         newProjectBtn.textContent = newTodoList.getName()
         newProjectBtn.classList.add('project')
         newProjectBtn.setAttribute('id', `project${allProjectsList.length}`)
-        document.getElementById('userProjectsList').appendChild(newProjectBtn)
         newProjectBtn.addEventListener('click',handleProjectBtn)
+
+        const removeProject = document.createElement('button')
+        removeProject.textContent = 'X'
+        removeProject.classList.add('remove-project')
+        removeProject.setAttribute('id', `removeProject${allProjectsList.length}`)
+        removeProject.addEventListener('click', handleProjectRemoveBtn)
+
+        projectListItem.appendChild(newProjectBtn)
+        projectListItem.appendChild(removeProject)
+        document.getElementById('userProjectsList').appendChild(projectListItem)
     })
 
 }
@@ -196,12 +234,12 @@ const handleOpenAddProject = (e)=>{
 const displayLoader = (()=>{
 
     const pageLoad = ()=>{
+        document.querySelector('#main').appendChild(header())
         document.querySelector('#main').appendChild(initialLoad())
-        document.querySelector('#main').appendChild(sidebarElement(allProjectsList))
     }
 
     const todoDisplay = ()=>{
-        document.querySelector('#display').appendChild(displayTodos(todoList.arrTodos))
+        document.querySelector('#display').appendChild(displayTodos(allProjectsList[0].arrTodos))
     } 
 
     const addRemoveEventListeners = () =>{
@@ -216,8 +254,23 @@ const displayLoader = (()=>{
         document.querySelector('#addTask').addEventListener('click',handleAddNewTask)
     }
 
+    const addDefaultProjects = () =>{
+        allProjectsList.forEach(project =>{
+            const projectListItem = document.createElement('div')
+            projectListItem.classList.add('projectListItem')
+    
+            const item = document.createElement('button')
+            item.textContent = project.getName()
+            item.classList.add('project')
+            item.setAttribute('id', `project${project.getListId()}`)
 
-    return {pageLoad, todoDisplay,addTaskEventListener ,addRemoveEventListeners}
+            projectListItem.appendChild(item)
+            document.getElementById('defaultProjectsList').appendChild(projectListItem)
+        })
+    }
+
+
+    return {pageLoad, todoDisplay,addTaskEventListener ,addRemoveEventListeners, addDefaultProjects}
 
 })()
 
@@ -225,6 +278,7 @@ displayLoader.pageLoad()
 displayLoader.todoDisplay()
 displayLoader.addTaskEventListener()
 displayLoader.addRemoveEventListeners()
+displayLoader.addDefaultProjects()
 
 const doneTaskBtns = [...document.querySelectorAll('.doneTask')]
 

@@ -8,7 +8,7 @@ export default function addProjectElement(){
 
     const addProject = document.createElement('button')
     addProject.setAttribute('id', 'addProject')
-    addProject.textContent = 'Add Project'
+    addProject.textContent = 'Add'
 
     const closeAddProject = document.createElement('button')
     closeAddProject.setAttribute('id', 'closeAddProject')

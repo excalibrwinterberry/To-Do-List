@@ -22,7 +22,17 @@ export default function todoCard(todo) {
     dueDate.textContent = todo.getDueDate()
 
     const priority = document.createElement('p')
-    priority.textContent = todo.getPriority()
+    let prioritText = ''
+    if(todo.getPriority() === 0){
+        prioritText = 'Low'
+    }
+    else if(todo.getPriority() === 1){
+        prioritText = 'Medium'
+    }
+    else{
+        prioritText = 'High'
+    }
+    priority.textContent = prioritText
 
     const deleteTodoBtn = document.createElement('button')
     deleteTodoBtn.classList.add('removeTodo')

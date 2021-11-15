@@ -1,4 +1,4 @@
-export default function sidebarElement(projectsList) {
+export default function sidebarElement() {
     const sideBar = document.createElement('div')
     sideBar.setAttribute('id','sidebar')
 
@@ -13,14 +13,6 @@ export default function sidebarElement(projectsList) {
     const defaultProjectsList = document.createElement('div')
     defaultProjectsList.classList.add('project-list')
     defaultProjectsList.setAttribute('id', 'defaultProjectsList')
-
-    projectsList.forEach((project, index) =>{
-        const item = document.createElement('button')
-        item.textContent = project.getName()
-        item.classList.add('project')
-        item.setAttribute('id', `project${project.getListId()}`)
-        defaultProjectsList.appendChild(item)
-    })
     
 
     divDefault.appendChild(defaultHeader)
