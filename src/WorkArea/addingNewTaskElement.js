@@ -36,6 +36,7 @@ export default function addingNewTaskElement(){
     dueDateTodoInput.setAttribute('type', 'date')
     dueDateTodoInput.setAttribute('id', 'addDueDate')
     dueDateTodoInput.setAttribute('value', (new Date()).toJSON().slice(0, 10))
+    dueDateTodoInput.setAttribute('min', (new Date()).toJSON().slice(0, 10))
 
     const labelPriority = document.createElement('label')
     labelPriority.textContent = "Priority: "

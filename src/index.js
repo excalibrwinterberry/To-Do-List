@@ -90,10 +90,12 @@ todoList.addToDos(excercise)
 
 todoList1.addToDos(cp)
 
-const allProjectsList = []
+
+let allProjectsList = []
 
 allProjectsList.push(todoList)
 allProjectsList.push(todoList1)
+
 
 
 function clearElementContent(elementID) {
@@ -241,19 +243,7 @@ const displayLoader = (()=>{
     const todoDisplay = ()=>{
         document.querySelector('#display').appendChild(displayTodos(allProjectsList[0].arrTodos))
     } 
-
-    const addRemoveEventListeners = () =>{
-        const removeBtns = [...document.querySelectorAll('.removeTodo')]
-
-        removeBtns.forEach((removeBtn)=>{
-            removeBtn.addEventListener('click', handleDeleteTask)
-        })
-    }
-
-    const addTaskEventListener = () =>{
-        document.querySelector('#addTask').addEventListener('click',handleAddNewTask)
-    }
-
+    
     const addDefaultProjects = () =>{
         allProjectsList.forEach(project =>{
             const projectListItem = document.createElement('div')
@@ -269,8 +259,38 @@ const displayLoader = (()=>{
         })
     }
 
+    const addRemoveEventListeners = () =>{
+        const removeBtns = [...document.querySelectorAll('.removeTodo')]
 
-    return {pageLoad, todoDisplay,addTaskEventListener ,addRemoveEventListeners, addDefaultProjects}
+        removeBtns.forEach((removeBtn)=>{
+            removeBtn.addEventListener('click', handleDeleteTask)
+        })
+    }
+
+    const addTaskEventListener = () =>{
+        document.querySelector('#addTask').addEventListener('click',handleAddNewTask)
+    }
+
+    const addDoneTaskEventListener = () =>{
+        const doneTaskBtns = [...document.querySelectorAll('.doneTask')]
+
+        doneTaskBtns.forEach((doneTaskBtn) =>{
+            doneTaskBtn.addEventListener('click', hadnleStatusChange)
+        })
+    }
+
+    const addOpenAddProjectEventListener = () =>{
+        document.getElementById('openAddProject').addEventListener('click', handleOpenAddProject)
+
+        const projectBtns = [...document.getElementsByClassName('project')]
+        projectBtns.forEach(projectBtn =>{
+            projectBtn.addEventListener('click', handleProjectBtn)
+        })
+    }
+
+
+
+    return {pageLoad, todoDisplay,addTaskEventListener ,addRemoveEventListeners, addDefaultProjects, addDoneTaskEventListener, addOpenAddProjectEventListener}
 
 })()
 
@@ -279,25 +299,8 @@ displayLoader.todoDisplay()
 displayLoader.addTaskEventListener()
 displayLoader.addRemoveEventListeners()
 displayLoader.addDefaultProjects()
-
-const doneTaskBtns = [...document.querySelectorAll('.doneTask')]
-
-doneTaskBtns.forEach((doneTaskBtn) =>{
-    doneTaskBtn.addEventListener('click', hadnleStatusChange)
-})
-
-
-document.getElementById('openAddProject').addEventListener('click', handleOpenAddProject)
-
-const projectBtns = [...document.getElementsByClassName('project')]
-projectBtns.forEach(projectBtn =>{
-    projectBtn.addEventListener('click', handleProjectBtn)
-})
-
-
-
-
-
+displayLoader.addDoneTaskEventListener()
+displayLoader.addOpenAddProjectEventListener()
 
 
 
